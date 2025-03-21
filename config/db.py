@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-connection_string = f"{os.getenv("MONGODB_URI")}"
+connection_string = f"{os.getenv('MONGODB_URI')}"
 
 client = MongoClient(connection_string)
 
-db = client[os.getenv("MONGODB_DB")]
+db = client[os.getenv('MONGODB_DB')]
