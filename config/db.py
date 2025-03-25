@@ -17,7 +17,7 @@ def create_user_collection():
         db.create_collection("users")
     except Exception as e:
         print(e)
-    db.command("collMod", "users", validator=user_schema)
+    db.command("collMod", "users", validator=user_schema,validationAction="error")
 
 
 def create_path_collection():
@@ -25,7 +25,7 @@ def create_path_collection():
         db.create_collection("paths")
     except Exception as e:
         print(e)
-    db.command("collMod", "paths", validator=path_schema)
+    db.command("collMod", "paths", validator=path_schema, validationAction="error")
 
 
 create_user_collection()
