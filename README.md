@@ -8,8 +8,9 @@
 
 ### Dependencies - BE
 Flask
-pymongo (https://pypi.org/project/pymongo/)
-python-dotenv  (https://pypi.org/project/python-dotenv/)
+pymongo (https://pypi.org/project/pymongo/)  
+python-dotenv  (https://pypi.org/project/python-dotenv/)  
+pyjwt (https://pyjwt.readthedocs.io/en/stable//)
 
 ### Dependencies - FE
 React  
