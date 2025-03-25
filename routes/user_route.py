@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users
+from controller.user_controller import create_user, show_user, show_all_users, login_user
 from flask import Blueprint, jsonify, request
 
 
@@ -47,9 +47,9 @@ def login():
     if not user_data or "username" not in user_data or "password" not in user_data:
         return jsonify({"error": "Missing username or password"}), 400
 
-    user_info = show_user(user_data["username"])
+    user_info, error = login_user(user_data["username"], user_data["password"])
 
-    if not user_info:
-        return jsonify({"error": "User not found"}), 404
+    if error:
+        return jsonify({"error": error}), 401
 
     return jsonify({'message': 'User logged in successfully', 'user': user_info}), 200
