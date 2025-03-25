@@ -38,3 +38,18 @@ def get_user():
 @user_routes.route("/show-all-users", methods=["GET"])
 def get_all_users():
     return jsonify({'users': show_all_users()}), 200
+
+
+@user_routes.route("/login", methods=["POST"])
+def login():
+    user_data = request.get_json()
+
+    if not user_data or "username" not in user_data or "password" not in user_data:
+        return jsonify({"error": "Missing username or password"}), 400
+
+    user_info = show_user(user_data["username"])
+
+    if not user_info:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({'message': 'User logged in successfully', 'user': user_info}), 200
