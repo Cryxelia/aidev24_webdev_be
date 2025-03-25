@@ -1,3 +1,4 @@
+from flask import request
 from config.db import db
 from werkzeug.security import generate_password_hash
 
@@ -18,3 +19,14 @@ def create_user(username, password):
         return {"id": str(result.inserted_id), "username": username}, None  
     except Exception as e:
         return None, f"Database error: {str(e)}"
+    
+    
+
+def delete_user(username):
+
+    result = db.users.delete_one({"username": username})
+
+    if result.deleted_count == 0:
+        return ({"error": "User not found"})
+
+    return ({"message": f"User '{username}' has been deleted"})
