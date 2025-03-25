@@ -3,11 +3,10 @@ import datetime
 import os
 
 def generate_jwt(user):
-  token_expiration_limit = os.getenv("TOKEN_EXPIRATION_HOURS")
   
   payload = {
     "username": user["username"],
-    "expiration": (datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=token_expiration_limit)).isoformat()
+    "expiration": (datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=10)).isoformat()
   }
   token = jwt.encode(payload, os.getenv("SECRET_KEY"), algorithm="HS256")
   
