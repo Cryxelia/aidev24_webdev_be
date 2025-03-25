@@ -1,4 +1,4 @@
-from controller.user_controller import create_user
+from controller.user_controller import create_user, show_user, show_all_users
 from flask import Blueprint, jsonify, request
 
 
@@ -17,3 +17,24 @@ def new_user():
         return jsonify({'error': error}), 400  
 
     return jsonify({'message': 'User created successfully', 'user': new_user}), 201 
+
+@user_routes.route("/show-user", methods=["GET"])
+def get_user():
+
+    user_data = request.get_json()
+
+    if not user_data or "username" not in user_data:
+        return jsonify({"error": "Missing username"}), 400
+
+    user_info = show_user(user_data["username"])
+
+    print(user_info)
+
+    if not user_info:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({'user': user_info}), 200
+
+@user_routes.route("/show-all-users", methods=["GET"])
+def get_all_users():
+    return jsonify({'users': show_all_users()}), 200
