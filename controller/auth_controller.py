@@ -1,10 +1,12 @@
 import jwt
 import datetime
 import os
+from config.db import db
 
 def generate_jwt(user):
   
   payload = {
+    "user_id": str(user["user_id"]),
     "username": user["username"],
     "expiration": (datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=10)).isoformat()
   }
@@ -21,4 +23,3 @@ def authenticate_jwt(encoded_token):
     return {"error": "Token expired"}
   else:
     return decoded_token
-  
