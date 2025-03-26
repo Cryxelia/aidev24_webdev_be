@@ -42,3 +42,35 @@ def login_user(username, password):
         return None, "Invalid username or password"
 
     return {"username": user["username"]}, None
+
+def update_username_by_id(user_id, new_username):
+    from bson.objectid import ObjectId
+
+    try:
+        _id = ObjectId(user_id)
+    except:
+        return None, "Invalid user ID format"
+
+    user = db.users.find_one({"_id": _id})
+
+    if not user:
+        return None, "User not found"
+
+    if user["username"] == new_username:
+        return None, "The new username is the same as the existing one"
+
+    username_check = db.users.find_one({"username": new_username, "_id": {"$ne": _id}})
+
+    if username_check:
+        return None, "That username is taken by another user"
+
+    result = db.users.update_one({"_id": _id}, {"$set": {"username": new_username}})
+
+    if result.modified_count == 0:
+        return None, "Failed to update username"
+
+    updated_user = db.users.find_one({"_id": _id})
+    if not updated_user:
+        return None, "Failed to retrieve updated user"
+
+    return {"user_id": str(_id), "username": updated_user["username"]}, None
