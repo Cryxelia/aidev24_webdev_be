@@ -15,7 +15,7 @@ def new_user():
     if error:
         return jsonify({'error': error}), 400  
 
-    return jsonify({'message': 'User created successfully', 'user': new_user}), 201 
+    return jsonify({'message': 'User created successfully'}), 201 
 
 @user_routes.route("/delete-user", methods=["DELETE"])
 def delete_user(username):
