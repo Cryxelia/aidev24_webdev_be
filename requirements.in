@@ -4,3 +4,4 @@ python-dotenv
 pyjwt
 requests
 polyline
+flask-cors
