@@ -21,3 +21,4 @@ def authenticate_jwt(encoded_token):
     return {"error": "Token expired"}
   else:
     return decoded_token
+  
