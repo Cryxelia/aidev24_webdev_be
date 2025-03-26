@@ -6,7 +6,6 @@ path_routes = Blueprint('path_routes', __name__)
 @path_routes.route("/get-path", methods=["GET"])
 def get_path():
     request_payload = request.get_json()
-    print(request_payload)
 
     if not request_payload or "starting_point" not in request_payload or "distance" not in request_payload:
         return jsonify({"error": "Missing either starting_point or distance"}), 400
