@@ -1,6 +1,7 @@
 from flask import request
 from config.db import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from controller.auth_controller import generate_jwt
 
 
 def create_user(username, password):
@@ -51,8 +52,10 @@ def login_user(username, password):
 
     if not user or not check_password_hash(user["password"], password):
         return None, "Invalid username or password"
+    
+    token = generate_jwt({"user_id": user["_id"], "username": user["username"]})
 
-    return {"username": user["username"]}, None
+    return {"username": user["username"], "token": token}, None
 
 def update_username_by_id(user_id, new_username):
     from bson.objectid import ObjectId
