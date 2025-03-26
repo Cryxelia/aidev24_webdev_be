@@ -13,7 +13,9 @@ python-dotenv  (https://pypi.org/project/python-dotenv/)
 pyjwt (https://pyjwt.readthedocs.io/en/stable//)
 
 ### Dependencies - FE
-React
+React  
+react-hook-form (https://www.npmjs.com/package/react-hook-form)
+axios (https://www.npmjs.com/package/axios)
 
 ## Graphical Profile
 -
