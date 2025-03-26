@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users, login_user
+from controller.user_controller import create_user, show_user, show_all_users, login_user, update_username_by_id
 from flask import Blueprint, jsonify, request
 
 
@@ -53,3 +53,19 @@ def login():
         return jsonify({"error": error}), 401
 
     return jsonify({'message': 'User logged in successfully', 'user': user_info}), 200
+
+@user_routes.route("/update-user", methods=["POST"])
+def update_user():
+    user_data = request.get_json()
+    
+    if not user_data or "new_username" not in user_data or "id" not in user_data:
+        return jsonify({"error": "Missing new_username or id"}), 400
+    
+    result, error = update_username_by_id(user_id=user_data["id"], new_username=user_data["new_username"])
+    
+    print("result ", result)
+    
+    if error:
+        return jsonify({"error": error})
+    
+    return jsonify({'message': 'User updated successfully', "user": result}), 200
