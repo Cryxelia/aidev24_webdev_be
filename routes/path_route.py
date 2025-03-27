@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request
 from utils.polyline import decode_polyline
 path_routes = Blueprint('path_routes', __name__)
 
-@path_routes.route("/get-path", methods=["GET"])
+@path_routes.route("/get-path", methods=["POST"])
 def get_path():
     request_payload = request.get_json()
     print(request_payload)
