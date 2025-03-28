@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user, update_username_by_id
+from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user, update_username_by_id, show_all_user_paths
 from controller.auth_controller import authenticate_jwt
 from flask import Blueprint, jsonify, request, make_response
 
@@ -94,3 +94,14 @@ def logout():
     response = make_response(jsonify({'message': 'User has logged out'}), 200)
     response.set_cookie('token', '', expires=0, httponly=True, path='/')
     return response
+
+@user_routes.route("/get-paths", methods=["GET"])
+def get_user_paths():
+    token = authenticate_jwt(request.cookies.get("token"))
+    if not token["user_id"]:
+        return jsonify({"error": "Token validation error"}), 400
+
+    user_id = token["user_id"]
+    paths = show_all_user_paths(user_id)
+
+    return jsonify({"paths": paths}), 200
