@@ -40,8 +40,6 @@ def get_user():
 
     user_info = show_user(user_data["username"])
 
-    print(user_info)
-
     if not user_info:
         return jsonify({"error": "User not found"}), 404
 
@@ -81,8 +79,6 @@ def update_user():
     
     result, error = update_username_by_id(user_id=user_id, new_username=user_data["new_username"])
     
-    print("result ", result)
-    
     if error:
         return jsonify({"error": error})
     
@@ -90,7 +86,6 @@ def update_user():
 
 @user_routes.route("/logout", methods=["POST"])
 def logout():
-    print("logout")
     response = make_response(jsonify({'message': 'User has logged out'}), 200)
     response.set_cookie('token', '', expires=0, httponly=True, path='/')
     return response

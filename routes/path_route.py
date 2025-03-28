@@ -10,7 +10,6 @@ path_routes = Blueprint("path_routes", __name__)
 @path_routes.route("/get-path", methods=["POST"])
 def get_path():
     request_payload = request.get_json()
-    print(request_payload)
 
     if (
         not request_payload
