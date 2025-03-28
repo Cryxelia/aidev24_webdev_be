@@ -3,6 +3,7 @@ import requests
 import json
 import os
 from config.db import db
+from random import randint
 
 
 def generate_path(starting_point, distance_meters):
@@ -11,10 +12,12 @@ def generate_path(starting_point, distance_meters):
         try:
             url = "https://api.openrouteservice.org/v2/directions/foot-walking"
 
+            randomize_seed = randint(1,42)
+            
             payload = json.dumps(
                 {
                     "coordinates": [start_coords],
-                    "options": {"round_trip": {"length": distance_meters, "seed": 42}},
+                    "options": {"round_trip": {"length": distance_meters, "seed": randomize_seed}},
                 }
             )
             headers = {
