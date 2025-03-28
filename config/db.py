@@ -25,7 +25,7 @@ def create_path_collection():
         db.create_collection("paths")
     except Exception as e:
         print(e)
-    db.command("collMod", "paths", validator=path_schema, validationAction="error")
+    db.command("collMod", "paths")
 
 
 create_user_collection()
