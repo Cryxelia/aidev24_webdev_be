@@ -45,11 +45,11 @@ def save_path():
         or "waypoints" not in request_payload
         or "title" not in request_payload
         or "distance" not in request_payload
-        or "timeTaken" not in request_payload
+        or "time" not in request_payload
     ):
         return (
             jsonify(
-                {"error": "Missing either waypoints, title, distance or timeTaken"}
+                {"error": "Missing either waypoints, title, distance or time"}
             ),
             400,
         )
