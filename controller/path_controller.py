@@ -3,7 +3,8 @@ import requests
 import json
 import os
 
-def generate_route(starting_point, distance_meters):
+
+def generate_path(starting_point, distance_meters):
     try:
         start_coords = validate_list_coords(starting_point)
         try:
@@ -20,10 +21,28 @@ def generate_route(starting_point, distance_meters):
                 "Content-Type": "application/json",
             }
 
-            response = requests.request("POST", url, headers=headers, data=payload).json()
+            response = requests.request(
+                "POST", url, headers=headers, data=payload
+            ).json()
             return response
         except Exception as e:
             return {"error": f"General error: {e}"}
 
     except ValueError as e:
         return {"error": f"Validation error: {e}"}
+
+
+def save_path_data(path_data, user_id):
+    new_path = {
+        "waypoints": path_data["waypoints"],
+        "title": path_data["title"],
+        "distance": path_data["distance"],
+        "time": path_data["time"],
+        "user_id": user_id,
+    }
+
+    try:
+        result = db.paths.insert_one(new_path)
+        return ({"message": f"Path has been saved"}), None
+    except Exception as e:
+        return None, f"Database error: {str(e)}"
