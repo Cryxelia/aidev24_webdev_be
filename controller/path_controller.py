@@ -2,6 +2,7 @@ from utils.validate_types import validate_list_coords
 import requests
 import json
 import os
+from config.db import db
 
 
 def generate_path(starting_point, distance_meters):
