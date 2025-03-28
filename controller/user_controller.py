@@ -88,3 +88,16 @@ def update_username_by_id(user_id, new_username):
         return None, "Failed to retrieve updated user"
 
     return {"user_id": str(_id), "username": updated_user["username"]}, None
+
+def show_all_user_paths(user_id):
+    user_paths = db.paths.find({"user_id": user_id})
+    path_list = []
+    for path in user_paths:
+        path_list.append({
+            "waypoints": path["waypoints"],
+            "title": path["title"],
+            "distance": path["distance"],
+            "time": path["time"],
+            "user_id": path["user_id"]
+        })
+    return path_list
