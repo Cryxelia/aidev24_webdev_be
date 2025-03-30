@@ -11,13 +11,17 @@ def generate_path(starting_point, distance_meters):
         start_coords = validate_list_coords(starting_point)
         try:
             url = "https://api.openrouteservice.org/v2/directions/foot-walking"
+            randomize_seed = randint(1, 42)
 
-            randomize_seed = randint(1,42)
-            
             payload = json.dumps(
                 {
                     "coordinates": [start_coords],
-                    "options": {"round_trip": {"length": distance_meters, "seed": randomize_seed}},
+                    "options": {
+                        "round_trip": {
+                            "length": distance_meters,
+                            "seed": randomize_seed,
+                        }
+                    },
                 }
             )
             headers = {
@@ -50,3 +54,37 @@ def save_path_data(path_data, user_id):
         return ({"message": f"Path has been saved"}), None
     except Exception as e:
         return None, f"Database error: {str(e)}"
+
+
+def generate_path_gpx(starting_point, distance_meters):
+    try:
+        start_coords = validate_list_coords(starting_point)
+        try:
+            url_gpx = "https://api.openrouteservice.org/v2/directions/foot-walking/gpx"
+            randomize_seed = randint(1, 42)
+
+            payload = json.dumps(
+                {
+                    "coordinates": [start_coords],
+                    "options": {
+                        "round_trip": {
+                            "length": distance_meters,
+                            "seed": randomize_seed,
+                        }
+                    },
+                }
+            )
+            headers = {
+                "Authorization": os.getenv("OPENROUTE_API_KEY"),
+                "Content-Type": "application/json",
+            }
+
+            response = requests.request("POST", url_gpx, headers=headers, data=payload)
+
+            return response
+
+        except Exception as e:
+            return {"error": f"General error: {e}"}
+
+    except ValueError as e:
+        return {"error": f"Validation error: {e}"}
