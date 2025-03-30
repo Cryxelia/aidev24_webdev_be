@@ -1,8 +1,7 @@
-from controller.path_controller import generate_path, save_path_data
-from flask import Blueprint, jsonify, request
+from controller.path_controller import generate_path, save_path_data, generate_path_gpx
+from flask import Blueprint, jsonify, request, Response
 from utils.polyline import decode_polyline
 from controller.auth_controller import authenticate_jwt
-
 
 path_routes = Blueprint("path_routes", __name__)
 
@@ -58,3 +57,27 @@ def save_path():
     if error:
         return jsonify({"error": error}), 400
     return jsonify({"message": "Path saved successfully"}), 201
+
+@path_routes.route("/get-path-gpx", methods=["POST"])
+def get_path_gpx():
+    request_payload = request.get_json()
+
+    if (
+        not request_payload
+        or "starting_point" not in request_payload
+        or "distance" not in request_payload
+    ):
+        return jsonify({"error": "Missing either starting_point or distance"}), 400
+
+    path_response = generate_path_gpx(
+        starting_point=request_payload["starting_point"],
+        distance_meters=request_payload["distance"],
+    )
+    
+    gpx_data = path_response.text
+
+    return Response(
+    gpx_data,
+    mimetype="application/gpx+xml",
+    headers={"Content-Disposition": "attachment;filename=generated_path.gpx"},
+)
