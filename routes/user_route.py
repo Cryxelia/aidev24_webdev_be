@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user, update_username_by_id, show_all_user_paths
+from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user_by_id, update_username_by_id, show_all_user_paths
 from controller.auth_controller import authenticate_jwt
 from flask import Blueprint, jsonify, request, make_response
 
@@ -19,12 +19,12 @@ def new_user():
     return jsonify({'message': 'User created successfully'}), 201 
 
 @user_routes.route("/delete-user", methods=["DELETE"])
-def delete_user(username):
-    user_data = request.get_json()
-    if not user_data or "username" not in user_data:
-        return jsonify({"error": "Missing username or password"}), 400
-    if delete_user(username):
-        return jsonify({"message": f"User '{username}' has been deleted"}), 200
+def delete_user():
+    token = authenticate_jwt(request.cookies.get("token"))
+    user_id = token["user_id"]
+
+    if delete_user_by_id(user_id):
+        return jsonify({"message": f"User '{user_id}' has been deleted"}), 200
 
     return jsonify({"error": "User not found"}), 404
 
