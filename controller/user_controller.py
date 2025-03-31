@@ -23,14 +23,21 @@ def create_user(username, password):
     
     
 
-def delete_user(username):
+def delete_user_by_id(user_id):
+    print(user_id)
+    from bson.objectid import ObjectId
 
-    result = db.users.delete_one({"username": username})
+    try:
+        _id = ObjectId(user_id)
+    except:
+        return None, "Invalid user ID format"
+
+    result = db.users.delete_one({"_id": _id})
 
     if result.deleted_count == 0:
         return ({"error": "User not found"})
 
-    return ({"message": f"User '{username}' has been deleted"})
+    return ({"message": "User has been deleted"})
 def show_user(username):
     user = db.users.find_one({"username": username})
     if not user:
