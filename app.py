@@ -1,6 +1,5 @@
 from flask import Flask
 from dotenv import load_dotenv
-import os
 from routes.user_route import user_routes
 from routes.path_route import path_routes
 from flask_cors import CORS
