@@ -58,22 +58,13 @@ def save_path():
     return jsonify({"message": "Path saved successfully"}), 201
 
 
-@path_routes.route("/delete-path", methods=["DELETE"])
-def delete_user_path():
+@path_routes.route("/delete-path/<path_id>", methods=["DELETE"])
+def delete_user_path(path_id):
 
     token = authenticate_jwt(request.cookies.get("token"))
 
     if not token["user_id"]:
         return jsonify({"error": "Token validation error"}), 400
-
-    request_payload = request.get_json()
-
-    if not request_payload or "path_id" not in request_payload:
-        return (
-            jsonify({"error": "Missing path_id"}),
-            400,
-        )
-    path_id = request_payload["path_id"]
 
     result, error = delete_path_by_id(path_id)
 
