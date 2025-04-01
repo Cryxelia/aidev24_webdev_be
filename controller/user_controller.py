@@ -98,13 +98,16 @@ def update_username_by_id(user_id, new_username):
 def show_all_user_paths(user_id):
     try:
         user_paths = db.paths.find({"user_id": user_id})
+        
         path_list = []
-        for path in user_paths:
+        
+        for path in user_paths:    
             path_list.append({
                 "waypoints": path["waypoints"],
                 "title": path["title"],
                 "distance": path["distance"],
-                "time": path["time"]
+                "time": path["time"],
+                "path_id": str(path["_id"]),
             })
 
         return path_list if path_list else None
