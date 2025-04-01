@@ -4,7 +4,7 @@ import json
 import os
 from config.db import db
 from random import randint
-
+from bson import ObjectId  
 
 def generate_path(starting_point, distance_meters):
     try:
@@ -12,12 +12,17 @@ def generate_path(starting_point, distance_meters):
         try:
             url = "https://api.openrouteservice.org/v2/directions/foot-walking"
 
-            randomize_seed = randint(1,42)
-            
+            randomize_seed = randint(1, 42)
+
             payload = json.dumps(
                 {
                     "coordinates": [start_coords],
-                    "options": {"round_trip": {"length": distance_meters, "seed": randomize_seed}},
+                    "options": {
+                        "round_trip": {
+                            "length": distance_meters,
+                            "seed": randomize_seed,
+                        }
+                    },
                 }
             )
             headers = {
@@ -47,6 +52,21 @@ def save_path_data(path_data, user_id):
 
     try:
         result = db.paths.insert_one(new_path)
-        return ({"message": f"Path has been saved"}), None
+        return ({"message": "Path has been saved"}), None
+    except Exception as e:
+        return None, f"Database error: {str(e)}"
+
+
+def delete_path_by_id(path_id):
+    try:
+        object_id = ObjectId(path_id)  # Convert to ObjectId
+    except Exception as e:
+        return {"error": f"Invalid path_id format: {e}"}
+    
+    try:
+        result = db.paths.delete_one({"_id": object_id})
+        if result.deleted_count == 0:
+            return None, "Path not found"
+        return {"message": "Path has been deleted"}, None
     except Exception as e:
         return None, f"Database error: {str(e)}"
