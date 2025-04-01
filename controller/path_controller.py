@@ -59,7 +59,7 @@ def save_path_data(path_data, user_id):
 
 def delete_path_by_id(path_id):
     try:
-        object_id = ObjectId(path_id)  # Convert to ObjectId
+        object_id = ObjectId(path_id)
     except Exception as e:
         return {"error": f"Invalid path_id format: {e}"}
     
