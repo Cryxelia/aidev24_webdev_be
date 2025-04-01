@@ -24,7 +24,6 @@ def create_user(username, password):
     
 
 def delete_user_by_id(user_id):
-    print(user_id)
     from bson.objectid import ObjectId
 
     try:
