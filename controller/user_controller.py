@@ -5,6 +5,9 @@ from controller.auth_controller import generate_jwt
 
 
 def create_user(username, password):
+    if len(password) < 6:
+        return None, "Password must be at least 6 characters long"
+
     existing_user = db.users.find_one({"username" : username})
     if existing_user:
         return None, "User already exists"
