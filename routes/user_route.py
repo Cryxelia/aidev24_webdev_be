@@ -84,19 +84,22 @@ def update_user():
     
     return jsonify({'message': 'User updated successfully', "user": result}), 200
 
-@user_routes.route("/update-user-password", methods=["POST"])
-def update_user():
+@user_routes.route("/update-user-password", methods=["PUT"])
+def update_user_password():
 
     token = authenticate_jwt(request.cookies.get("token"))
     user_id = token["user_id"]
 
     user_data = request.get_json()
     
-    if not user_data or "new_hashed_password" not in user_data:
-        return jsonify({"error": "Missing new password"}), 400
+    if not user_data or "new_password" not in user_data or "old_password" not in user_data or "confirm_password" not in user_data:
+        return jsonify({"error": "Missing new password, old password or confirm password"}), 400
     
-    result, error = update_password(user_id=user_id, new_hashed_password=user_data["new_hashed_password"])
-    
+    new_password = user_data["new_password"]
+    old_password = user_data["old_password"]
+    confirm_password = user_data["confirm_password"]
+    result, error = update_password(user_id, old_password, new_password, confirm_password)
+
     if error:
         return jsonify({"error": error})
     

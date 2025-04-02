@@ -115,6 +115,9 @@ def update_password(user_id, old_password, new_password, confirm_password):
     if not check_password_hash(user.get("password", ""), old_password):
         return None, "Incorrect old password"
     
+    if new_password == old_password:
+        return None, "New password can't be same as old password"
+
     if new_password != confirm_password:
         return None, "New passwords do not match"
     
