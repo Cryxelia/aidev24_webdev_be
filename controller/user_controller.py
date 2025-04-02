@@ -96,6 +96,36 @@ def update_username_by_id(user_id, new_username):
 
     return {"user_id": str(_id), "username": updated_user["username"]}, None
 
+def update_password_by_id(user_id, old_password, new_password, confirm_password):
+    from bson.objectid import ObjectId
+
+    try:
+        _id = ObjectId(user_id)
+    except:
+        return None, "Invalid user ID format"
+
+    user = db.users.find_one({"_id": _id})
+
+    if not user:
+        return None, "User not found"
+
+    if not check_password_hash(user.get("password", ""), old_password):
+        return None, "Incorrect old password"
+    
+    if new_password != confirm_password:
+        return None, "New passwords do not match"
+    
+    if len(new_password) < 6:
+        return None, "New password must be at least 6 characters long"
+    
+    hashed_password = generate_password_hash(new_password)
+    result = db.users.update_one({"_id" : _id}, {"$set": {"password": hashed_password}})
+
+    if result.modified_count == 0:
+        return None, "Failed to update password"
+    
+    return {"user_id": str(_id), "message": "Password updated successfully"}, None
+
 def show_all_user_paths(user_id):
     try:
         user_paths = db.paths.find({"user_id": user_id})
