@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user_by_id, update_username_by_id, show_all_user_paths
+from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user_by_id, update_username_by_id, show_all_user_paths, update_password
 from controller.auth_controller import authenticate_jwt
 from flask import Blueprint, jsonify, request, make_response
 
@@ -83,6 +83,25 @@ def update_user():
         return jsonify({"error": error})
     
     return jsonify({'message': 'User updated successfully', "user": result}), 200
+
+@user_routes.route("/update-user-password", methods=["POST"])
+def update_user():
+
+    token = authenticate_jwt(request.cookies.get("token"))
+    user_id = token["user_id"]
+
+    user_data = request.get_json()
+    
+    if not user_data or "new_hashed_password" not in user_data:
+        return jsonify({"error": "Missing new password"}), 400
+    
+    result, error = update_password(user_id=user_id, new_hashed_password=user_data["new_hashed_password"])
+    
+    if error:
+        return jsonify({"error": error})
+    
+    return jsonify({'message': 'User password updated successfully', "user": result}), 200
+
 
 @user_routes.route("/logout", methods=["POST"])
 def logout():

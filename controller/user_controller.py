@@ -99,7 +99,7 @@ def update_username_by_id(user_id, new_username):
 
     return {"user_id": str(_id), "username": updated_user["username"]}, None
 
-def update_password_by_id(user_id, old_password, new_password, confirm_password):
+def update_password(user_id, old_password, new_password, confirm_password):
     from bson.objectid import ObjectId
 
     try:
@@ -121,8 +121,8 @@ def update_password_by_id(user_id, old_password, new_password, confirm_password)
     if len(new_password) < 6:
         return None, "New password must be at least 6 characters long"
     
-    hashed_password = generate_password_hash(new_password)
-    result = db.users.update_one({"_id" : _id}, {"$set": {"password": hashed_password}})
+    new_hashed_password = generate_password_hash(new_password)
+    result = db.users.update_one({"_id" : _id}, {"$set": {"password": new_hashed_password}})
 
     if result.modified_count == 0:
         return None, "Failed to update password"
