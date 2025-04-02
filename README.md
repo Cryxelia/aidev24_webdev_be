@@ -1,7 +1,7 @@
 # RunPrepper
 
 ## Description
--
+The ultimate route planer for your runing needs
 
 ## How to setup and run
 -
