@@ -62,7 +62,7 @@ def delete_path_by_id(path_id):
         object_id = ObjectId(path_id)
     except Exception as e:
         return {"error": f"Invalid path_id format: {e}"}
-    
+
     try:
         result = db.paths.delete_one({"_id": object_id})
         if result.deleted_count == 0:
@@ -70,3 +70,37 @@ def delete_path_by_id(path_id):
         return {"message": "Path has been deleted"}, None
     except Exception as e:
         return None, f"Database error: {str(e)}"
+
+
+def update_path_by_id(path_id, pathData):
+    try:
+        path_id = ObjectId(path_id)
+    except Exception as e:
+        return {"error": f"Invalid path_id format: {e}"}
+
+    path = db.paths.find_one({"_id": path_id})
+
+    waypoints = pathData.get("waypoints")
+    title = pathData.get("title")
+    distance = pathData.get("distance")
+    time = pathData.get("time")
+
+    if not path:
+        return None, "Path not found"
+
+    result = db.paths.update_one(
+        {"_id": path_id},
+        {
+            "$set": {
+                "waypoints": waypoints,
+                "title": title,
+                "distance": distance,
+                "time": time,
+            }
+        },
+    )
+
+    if result.modified_count == 0:
+        return None, "Failed to update path"
+
+    return {"message": "Path has been updated"}, None
