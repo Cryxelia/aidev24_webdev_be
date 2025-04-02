@@ -1,7 +1,7 @@
 # RunPrepper
 
 ## Description
--
+The ultimate route planer for your runing needs
 
 ## How to setup and run
 -
@@ -13,12 +13,18 @@ python-dotenv  (https://pypi.org/project/python-dotenv/)
 pyjwt (https://pyjwt.readthedocs.io/en/stable//)
 
 ### Dependencies - FE
-React  
-react-hook-form (https://www.npmjs.com/package/react-hook-form)
-axios (https://www.npmjs.com/package/axios)
+react-hook-form (https://www.npmjs.com/package/react-hook-form)  
+axios (https://www.npmjs.com/package/axios)  
+dotenv (https://www.npmjs.com/package/dotenv)  
+leaflet (https://www.npmjs.com/package/leaflet)  
+leaflet-defaulticon-compatibility (https://www.npmjs.com/package/leaflet-defaulticon-compatibility)  
+react (https://www.npmjs.com/package/react)  
+react-dom (https://www.npmjs.com/package/react-dom)  
+react-helmet (https://www.npmjs.com/package/react-helmet)  
+react-leaflet (https://www.npmjs.com/package/react-leaflet)  
+react-router-dom (https://www.npmjs.com/package/react-router-dom)  
 
-## Graphical Profile
--
+
 
 ## Branch organization
 **main** - production environment.  
