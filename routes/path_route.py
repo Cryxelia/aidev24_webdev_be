@@ -1,4 +1,4 @@
-from controller.path_controller import generate_path, save_path_data
+from controller.path_controller import generate_path, save_path_data, delete_path_by_id
 from flask import Blueprint, jsonify, request
 from utils.polyline import decode_polyline
 from controller.auth_controller import authenticate_jwt
@@ -47,9 +47,7 @@ def save_path():
         or "time" not in request_payload
     ):
         return (
-            jsonify(
-                {"error": "Missing either waypoints, title, distance or time"}
-            ),
+            jsonify({"error": "Missing either waypoints, title, distance or time"}),
             400,
         )
 
@@ -58,3 +56,19 @@ def save_path():
     if error:
         return jsonify({"error": error}), 400
     return jsonify({"message": "Path saved successfully"}), 201
+
+
+@path_routes.route("/delete-path/<path_id>", methods=["DELETE"])
+def delete_user_path(path_id):
+
+    token = authenticate_jwt(request.cookies.get("token"))
+
+    if not token["user_id"]:
+        return jsonify({"error": "Token validation error"}), 400
+
+    result, error = delete_path_by_id(path_id)
+
+    if error:
+        return jsonify({"error": error}), 400
+
+    return jsonify({"message": "Path successfully deleted"}), 201
