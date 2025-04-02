@@ -80,9 +80,9 @@ def update_user():
     result, error = update_username_by_id(user_id=user_id, new_username=user_data["new_username"])
     
     if error:
-        return jsonify({"error": error})
+        return jsonify({"error": error}), 400
     
-    return jsonify({'message': 'User updated successfully', "user": result}), 200
+    return jsonify({'message': 'User updated successfully', "user": result}), 201
 
 @user_routes.route("/update-user-password", methods=["PUT"])
 def update_user_password():
@@ -95,15 +95,12 @@ def update_user_password():
     if not user_data or "new_password" not in user_data or "old_password" not in user_data or "confirm_password" not in user_data:
         return jsonify({"error": "Missing new password, old password or confirm password"}), 400
     
-    new_password = user_data["new_password"]
-    old_password = user_data["old_password"]
-    confirm_password = user_data["confirm_password"]
-    result, error = update_password(user_id, old_password, new_password, confirm_password)
+    result, error = update_password(user_id, old_password = user_data["old_password"], new_password = user_data["new_password"], confirm_password = user_data["confirm_password"])
 
     if error:
-        return jsonify({"error": error})
+        return jsonify({"error": error}), 400
     
-    return jsonify({'message': 'User password updated successfully', "user": result}), 200
+    return jsonify({'message': 'User password updated successfully', "user": result}), 201
 
 
 @user_routes.route("/logout", methods=["POST"])
