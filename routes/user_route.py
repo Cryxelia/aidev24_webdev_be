@@ -1,4 +1,4 @@
-from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user_by_id, update_username_by_id, show_all_user_paths, update_password
+from controller.user_controller import create_user, show_user, show_all_users, login_user, delete_user_by_id, update_username_by_id, show_all_user_paths, update_password, get_user_path
 from controller.auth_controller import authenticate_jwt
 from flask import Blueprint, jsonify, request, make_response
 
@@ -119,3 +119,17 @@ def get_user_paths():
     paths = show_all_user_paths(user_id)
 
     return jsonify({"paths": paths}), 200
+
+@user_routes.route("/get-path", methods=["GET"])
+def get_path():
+    token = authenticate_jwt(request.cookies.get("token"))
+    if not token["user_id"]:
+        return jsonify({"error": "Token validation error"}), 400
+    
+    user_id = token["user_id"]
+    path, error = get_user_path(user_id)
+
+    if error:
+        return jsonify({"error": error}), 400
+
+    return jsonify({"path": path}), 200
