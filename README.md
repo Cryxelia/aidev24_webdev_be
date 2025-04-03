@@ -96,6 +96,12 @@ users - username and password
 paths - Store postion data, title, distance and time for each path. Also contains a refernce to the user_id
 Currently implements a validation for the users collection
 
+## Testing procedure
+We have implemented E2E tests for some of the core features. For this to work:
+- You must have the Backend and Frontend up and running
+- While in the root of the Frontend repo folder run the following command: `npx cypress open`
+- Navigate to the E2E test selection and just run the test you want to check
+
 ## Known bugs
 Possible spotify bug:
 - One user reported being passed to login after spotify login. Should remain on profile
