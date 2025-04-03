@@ -23,7 +23,7 @@ Feel free to add [Mongo DB Conpass](https://www.mongodb.com/try/download/compass
   3.  Run frontend with `npm run dev`
 
 ### Dependencies - BE
-Flask
+[Flask](https://pypi.org/project/Flask/)
 [pymongo](https://pypi.org/project/pymongo/)  
 [python-dotenv](https://pypi.org/project/python-dotenv/)  
 [pyjwt](https://pyjwt.readthedocs.io/en/stable//)
