@@ -12,7 +12,7 @@ Install [MongoDB community edition](https://www.mongodb.com/try/download/communi
 Feel free to add [Mongo DB Conpass](https://www.mongodb.com/try/download/compass) as well! It can be added along with the MongoDB CE install.  
 
 ### In backend
-  1. `python -m venv venv`
+  1.  Create venv with `python -m venv venv`
   2.  Download dependencies `pip install -r requirements.txt`
   3.  Rename .env_example to .env and fill in the proper credentials
   4.  Run backend with `python app.py`
