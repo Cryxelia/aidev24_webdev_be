@@ -13,9 +13,10 @@ Feel free to add [Mongo DB Conpass](https://www.mongodb.com/try/download/compass
 
 ### In backend
   1.  Create venv with `python -m venv venv`
-  2.  Download dependencies `pip install -r requirements.txt`
-  3.  Rename .env_example to .env and fill in the proper credentials
-  4.  Run backend with `python app.py`
+  2.  Activate venv with `venv/scripts/activate` on PC and `venv/bin/activate` on MAC
+  3.  Download dependencies `pip install -r requirements.txt`
+  4.  Rename .env_example to .env and fill in the proper credentials
+  5.  Run backend with `python app.py`
 
 ### In frontend  
   1.  Download dependencies with `npm install`
