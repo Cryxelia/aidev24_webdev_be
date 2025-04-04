@@ -154,7 +154,6 @@ def show_all_user_paths(user_id):
 
 def get_user_path(user_id):
     user_path = db.paths.find_one({"user_id": user_id}, {"_id":0})
-    print(user_path)
     if user_path:
         return {"path": user_path}, None
     else:
