@@ -153,9 +153,12 @@ def show_all_user_paths(user_id):
     
 
 def get_user_path(user_id):
-    user_path = db.paths.find_one({"user_id": user_id}, {"_id":0})
-    if user_path:
-        return {"path": user_path}, None
-    else:
-        return None, "User not found"
-    
+    try:
+        user_path = db.paths.find_one({"user_id": user_id}, {"_id":0})
+        if user_path:
+            return {"path": user_path}, None
+        else:
+            return None, "User path not found"
+    except Exception as e:
+        print(f"Error fetching user paths: {e}")
+        return None
