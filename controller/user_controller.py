@@ -158,7 +158,7 @@ def get_user_path(user_id):
         if user_path:
             return {"path": user_path}, None
         else:
-            return None, "User path not found"
+            return {"path": {}}, None
     except Exception as e:
         print(f"Error fetching user paths: {e}")
         return None
