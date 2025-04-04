@@ -66,7 +66,7 @@ def login():
     response.set_cookie("token", user_info["token"], httponly=True, secure=True, samesite="Strict")
     return response
 
-@user_routes.route("/update-user", methods=["POST"])
+@user_routes.route("/update-user", methods=["PUT"])
 def update_user():
 
     token = authenticate_jwt(request.cookies.get("token"))
